@@ -10,10 +10,6 @@ module.exports = {
     publicPath: "/",
   },
   target: "electron-renderer",
-  output: {
-    path: path.resolve(__dirname, "build/js"),
-    filename: "app.js",
-  },
   module: {
     rules: [
       {
@@ -32,7 +28,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: ["style-loader", "css-loader", "postcss-loader"],
       },
     ],
   },
@@ -42,13 +38,13 @@ module.exports = {
     }),
   ],
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: [".js", ".jsx"],
     fallback: {
-      "path": require.resolve("path-browserify"),
-      "os": require.resolve("os-browserify/browser"),
-      "crypto": require.resolve("crypto-browserify"),
-      "stream": require.resolve("stream-browserify"),
-      "buffer": require.resolve("buffer/")
-    }
+      path: require.resolve("path-browserify"),
+      os: require.resolve("os-browserify/browser"),
+      crypto: require.resolve("crypto-browserify"),
+      stream: require.resolve("stream-browserify"),
+      buffer: require.resolve("buffer/"),
+    },
   },
 };

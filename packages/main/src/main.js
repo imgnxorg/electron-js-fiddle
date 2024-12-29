@@ -1,5 +1,5 @@
 const { app, BrowserWindow } = require("electron");
-// const path = require("path");
+const path = require("path");
 const chalk = () => import("chalk");
 
 function createWindow() {
@@ -7,9 +7,9 @@ function createWindow() {
     width: 1200,
     height: 800,
     webPreferences: {
+      devTools: true,
       nodeIntegration: true,
       contextIsolation: true,
-      nodeIntegration: false,
       webSecurity: true,
       sandbox: true,
     },
@@ -40,7 +40,16 @@ function createWindow() {
     // Open the DevTools automatically
     mainWindow.webContents.openDevTools();
   } else {
-    mainWindow.loadFile("dist/index.html");
+    mainWindow.loadFile(
+      path.join(
+        __dirname,
+        "packages",
+        "renderer",
+        "src",
+        "public",
+        "index.html",
+      ),
+    );
   }
 }
 

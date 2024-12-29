@@ -1,5 +1,4 @@
 const fs = require("fs");
-const path = require("path");
 const { execSync } = require("child_process");
 
 const setupProject = () => {
@@ -23,7 +22,7 @@ const path = require('path');
 
 module.exports = {
   mode: 'development',
-  entry: './packages/renderer/src/index.jsx',
+  entry: './packages/renderer/src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
@@ -70,13 +69,19 @@ module.exports = {
   const regularDependencies = ["react", "react-dom"];
 
   try {
-    // Install dev dependencies
-    console.log("Installing dev dependencies...");
+    // Install dev dependencies in the root directory
+    console.log("Installing dev dependencies in the root directory...");
     execSync(`yarn add -D ${devDependencies.join(" ")}`, { stdio: "inherit" });
 
-    // Install regular dependencies
-    console.log("Installing regular dependencies...");
+    // Install regular dependencies in the root directory
+    console.log("Installing regular dependencies in the root directory...");
     execSync(`yarn add ${regularDependencies.join(" ")}`, { stdio: "inherit" });
+
+    // Install dependencies in each package directory
+    dirs.forEach((dir) => {
+      console.log(`Installing dependencies in ${dir}...`);
+      execSync(`cd ${dir} && yarn init -y && yarn add ${regularDependencies.join(" ")}`, { stdio: "inherit" });
+    });
   } catch (error) {
     console.error(
       "Some packages may already be installed. Continuing with setup...",
