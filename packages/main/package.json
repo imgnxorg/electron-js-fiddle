@@ -1,0 +1,30 @@
+{
+  "name": "imgnx-electron-app",
+  "version": "1.0.0",
+  "description": "IMGNXTION Electron application description",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "electron-builder"
+  },
+  "author": "Your Name",
+  "license": "0BSD",
+  "devDependencies": {
+    "electron": "^latest_version",
+    "electron-builder": "^latest_version"
+  },
+  "dependencies": {},
+  "build": {
+    "appId": "com.your.app",
+    "mac": {
+      "category": "your.app.category"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  }
+}
