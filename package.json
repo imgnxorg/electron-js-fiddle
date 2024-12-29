@@ -12,14 +12,20 @@
     "build": "webpack --mode production && electron-builder"
   },
   "dependencies": {
+    "crypto-browserify": "^3.12.1",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "stream-browserify": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.26.3",
+    "@types/path-browserify": "^1",
     "babel-loader": "^9.2.1",
+    "chalk": "^5.4.1",
     "concurrently": "^9.1.1",
     "electron": "33.2.1",
     "electron-builder": "^25.1.8",
@@ -32,5 +38,10 @@
   "packageManager": "yarn@4.5.3+sha512.3003a14012e2987072d244c720506549c1aab73ee728208f1b2580a9fd67b92d61ba6b08fe93f6dce68fd771e3af1e59a0afa28dd242dd0940d73b95fedd4e90",
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "securityChecks": {
+    "checkNodeIntegration": true,
+    "checkContextIsolation": true,
+    "checkWebSecurity": true
+  }
 }
