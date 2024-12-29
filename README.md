@@ -1,25 +1,34 @@
-Q: RE: ^>
+# Electron.js + Bazel Boilerplate 
+
+<!-- Q: RE: ^> -->
 
 > Why are we disabling NodeIntegration?
 
-We disable nodeIntegration for security reasons, particularly to prevent 
-potential Cross-Site Scripting (XSS) attacks and unauthorized access to Node.js 
-APIs. Here's a detailed explanation: [1]
+We disable nodeIntegration for security reasons, particularly to prevent potential Cross-Site Scripting (XSS) attacks and unauthorized access to Node.js APIs. Here's a detailed explanation: [1]
 
-1. Security Risks with nodeIntegration enabled:
-javascript
+<ol>
+<li><span>Security Risks with nodeIntegration enabled:</span>
+<ul>
+<li>
+
+```javascript
 // With nodeIntegration: true, malicious code could do this:
-const { exec } = require('child_process')
+const { exec } = require('child_process');
 exec('rm -rf /*') // Dangerous system-level access
 // Or access file system
 const fs = require('fs')
 fs.readFile('/path/to/sensitive/data')
+```
 
+</li>
+</ul>
+</li>
 
-2. The secure approach using contextBridge:
-javascript
+<li><span>The secure approach using <code>contextBridge</code>:</span>
+
+```javascript
 // preload.js - Controlled exposure of specific features
-const { contextBridge } = require('electron')
+const { contextBridge } = require('electron');
 
 contextBridge.exposeInMainWorld('secureApi', {
     // Only expose what you need
@@ -32,6 +41,11 @@ contextBridge.exposeInMainWorld('secureApi', {
         return await safeReadConfig(configPath)
     }
 })
+```
+
+</li>
+
+</ol>
 
 
 Key reasons for disabling nodeIntegration:
@@ -48,7 +62,8 @@ Key reasons for disabling nodeIntegration:
 • Network request tampering
 
 3. Better separation of concerns:
-javascript
+
+```javascript
 // main.js
 const { BrowserWindow } = require('electron')
 
@@ -60,10 +75,11 @@ const mainWindow = new BrowserWindow({
         preload: path.join(__dirname, 'preload.js')
     }
 })
-
+```
 
 4. Safe pattern for IPC communication:
-javascript
+
+```javascript
 // preload.js
 contextBridge.exposeInMainWorld('safeIpc', {
     sendMessage: (message) => {
@@ -78,7 +94,7 @@ contextBridge.exposeInMainWorld('safeIpc', {
 
 // renderer.js (your web code)
 window.safeIpc.sendMessage('Hello') // Safe, controlled communication
-
+```
 
 This approach:
 • Creates a clear security boundary
@@ -98,6 +114,7 @@ prevents potentially malicious remote code from accessing Node.js capabilities.
 The Yarn workspace configuration goes in the root package.json of your project. 
 Here's how to structure it: [1]
 
+```bash
 your-project/
 ├── package.json           # Root workspace package.json
 ├── packages/
@@ -114,12 +131,13 @@ your-project/
 │       │   └── index.html
 │       └── webpack.config.js
 └── .yarnrc.yml
+```
 
 > What goes into the package.json file for the renderer process?
 
 Here's a comprehensive package.json setup for the renderer process:
 
-json
+```json
 {
   "name": "electron-react-renderer",
   "version": "1.0.0",
@@ -169,11 +187,11 @@ json
     ]
   }
 }
-
+```
 
 Optional but recommended additions for a more complete setup:
 
-json
+```json
 {
   "devDependencies": {
     // Add these for linting
@@ -213,11 +231,11 @@ json
     }
   }
 }
-
+```
 
 For TypeScript configuration, include a tsconfig.json in the same directory:
 
-json
+```json
 {
   "compilerOptions": {
     "target": "ES2020",
@@ -240,11 +258,11 @@ json
   "include": ["src"],
   "exclude": ["node_modules"]
 }
-
+```
 
 For path aliases (optional but helpful), add to tsconfig.json:
 
-json
+```json
 {
   "compilerOptions": {
     "baseUrl": "src",
@@ -256,7 +274,7 @@ json
     }
   }
 }
-
+```
 
 Remember to:
 
@@ -266,6 +284,4 @@ Remember to:
 4. Add any specific dependencies your project requires
 5. Update browserslist config based on your target platforms
 
-The exact dependencies you'll need might vary based on your specific 
-requirements, but this provides a solid foundation for a React-based Electron 
-renderer process.
+The exact dependencies you'll need might vary based on your specific requirements, but this provides a solid foundation for a React-based Electron renderer process.

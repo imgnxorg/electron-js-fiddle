@@ -6,15 +6,12 @@
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "electron-builder"
+    "build": "electron-builder",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
   "author": "Your Name",
   "license": "0BSD",
-  "devDependencies": {
-    "electron": "^latest_version",
-    "electron-builder": "^latest_version"
-  },
-  "dependencies": {},
   "build": {
     "appId": "com.your.app",
     "mac": {
@@ -26,5 +23,14 @@
     "linux": {
       "target": "AppImage"
     }
+  },
+  "devDependencies": {
+    "electron": "33.2.1",
+    "electron-builder": "^25.1.8",
+    "eslint": "^8.0.0",
+    "eslint-plugin-import": "^2.0.0",
+    "eslint-plugin-jsx-a11y": "^6.0.0",
+    "eslint-plugin-react": "^7.0.0",
+    "eslint-plugin-react-hooks": "^4.0.0"
   }
 }

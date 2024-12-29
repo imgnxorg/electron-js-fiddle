@@ -1,17 +1,19 @@
 {
-  "name": "mixed-definition-peep-88bev",
-  "productName": "mixed-definition-peep-88bev",
+  "name": "electron-app",
+  "productName": "electron-app",
   "description": "My Electron application description",
   "keywords": [],
-  "main": "./main.js",
   "version": "1.0.0",
-  "author": "Donald Wayne Moore Jr.",
+  "author": "Donald Wayne Moore Jr. (@imgnx)",
+  "main": "packages/main/src/main.js",
   "scripts": {
     "start": "electron .",
-    "dev": "concurrently -k \"BROWSER=none yarn react-start\" \"yarn electron-wait\"",
-    "react-start": "webpack serve --config webpack.config.js",
-    "electron-wait": "wait-on tcp:3000 && electron .",
-    "build": "webpack --config webpack.config.js"
+    "dev": "concurrently \"webpack serve --config webpack.dev.config.js\" \"wait-on tcp:3000 && electron .\"",
+    "build": "webpack --mode production && electron-builder"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
@@ -21,12 +23,14 @@
     "concurrently": "^9.1.1",
     "electron": "33.2.1",
     "electron-builder": "^25.1.8",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "html-webpack-plugin": "^5.6.3",
     "wait-on": "^8.0.1",
     "webpack": "^5.97.1",
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.0"
   },
-  "packageManager": "yarn@4.5.3+sha512.3003a14012e2987072d244c720506549c1aab73ee728208f1b2580a9fd67b92d61ba6b08fe93f6dce68fd771e3af1e59a0afa28dd242dd0940d73b95fedd4e90"
+  "packageManager": "yarn@4.5.3+sha512.3003a14012e2987072d244c720506549c1aab73ee728208f1b2580a9fd67b92d61ba6b08fe93f6dce68fd771e3af1e59a0afa28dd242dd0940d73b95fedd4e90",
+  "workspaces": [
+    "packages/*"
+  ]
 }

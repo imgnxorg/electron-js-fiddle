@@ -7,3 +7,6 @@ rm yarn.lock
 
 # Reinstall everything
 yarn install
+
+# Run linting
+yarn lint
